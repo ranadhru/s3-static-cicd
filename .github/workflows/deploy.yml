@@ -10,7 +10,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
@@ -19,11 +20,9 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
 
-      - name: Setup AWS CLI
-        uses: aws-actions/setup-aws-cli@v2
-
       - name: Deploy to S3
         run: |
+          aws --version
           aws s3 sync . s3://${{ secrets.S3_BUCKET }} \
             --delete \
             --exclude ".git/*" \
